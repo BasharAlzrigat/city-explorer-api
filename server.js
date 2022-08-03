@@ -33,8 +33,13 @@ app.get('/weather', (req, res) => {
         const weatherArray = result.data.map(element => new Forecast(element))
         res.send(weatherArray);
     
-    }catch {
-        res.status(500).send('unexpected error')
+    }catch (error){
+        handleError(error, res)
     }
 });
 
+app.get('*', (req, res) => {res.status(404).send('Weather Data Not Found')})
+
+function handleError(error, res) {
+    res.status(500).send('unexpected error');
+}
